@@ -1,0 +1,21 @@
+name: windows
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+      - name: Publish Windows client
+        run: dotnet publish windows/Mpas.Desktop/Mpas.Desktop.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -o windows/dist
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mpas-windows-client
+          path: windows/dist/MPAS.Desktop.exe

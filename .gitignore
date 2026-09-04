@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.db
+mpas-images/
+*.egg-info/
+.venv/
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+windows/**/bin/
+windows/**/obj/
+windows/dist/

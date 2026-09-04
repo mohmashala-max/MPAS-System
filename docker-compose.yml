@@ -1,0 +1,25 @@
+services:
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: mpas-backend:dev
+    ports:
+      - "8000:8000"
+    environment:
+      MPAS_ENVIRONMENT: development
+      MPAS_JWT_SECRET: ${MPAS_JWT_SECRET:-development-only-change-me-32-bytes}
+      MPAS_DEV_USERNAME: ${MPAS_DEV_USERNAME:-demo}
+      MPAS_DEV_PASSWORD: ${MPAS_DEV_PASSWORD:-change-me}
+      MPAS_ALERT_DATABASE_PATH: /data/mpas-alerts.db
+      MPAS_IMAGE_STORAGE_PATH: /data/images
+    volumes:
+      - mpas-data:/data
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health')"]
+      interval: 2s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  mpas-data:
